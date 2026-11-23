@@ -12,6 +12,16 @@ function Ask($question) {
 }
 . "$PSScriptRoot\prereqs.ps1"
 
+# Opened straight from the ZIP? Windows runs it from a temporary copy that gets deleted later.
+if ($LabRoot -like "$env:TEMP*" -or $LabRoot -match '\.zip') {
+    Say "STOP: this was opened from inside the ZIP file, so it would install into a temporary folder." Yellow
+    Say "Do this instead:" Yellow
+    Say "  1. Close this window." Yellow
+    Say "  2. Right-click the ZIP file > Extract All > choose Documents > Extract." Yellow
+    Say "  3. Open the new folder and double-click INSTALL.bat there." Yellow
+    throw "Please extract the ZIP first (see the steps above)."
+}
+
 Say "== Android Emulator Lab setup ==" Cyan
 Say "Lab folder: $LabRoot"
 Say "SDK folder: $SdkRoot"

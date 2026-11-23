@@ -1,8 +1,11 @@
 """Creates, starts, stops, reboots and resets one emulator. Brings its window to the front."""
 import ctypes
+import os
+import re
 import subprocess
 import time
 from ctypes import wintypes
+from pathlib import Path
 
 from . import adb, config, log, procstats
 
@@ -25,6 +28,21 @@ def is_running(emu):
     return bool(info and info["pids"])
 
 
+def _env_with_java():
+    """avdmanager needs JAVA_HOME. If it is missing or wrong, find Java 17+ in the usual places."""
+    env = dict(os.environ)
+    if (Path(env.get("JAVA_HOME", "")) / "bin" / "java.exe").exists():
+        return env
+    roots = [Path(os.environ.get("ProgramFiles", r"C:\Program Files")) / name
+             for name in ("Eclipse Adoptium", "Microsoft", "Java", r"Android\Android Studio")]
+    for root in roots:
+        for java in sorted(root.glob("*/bin/java.exe"), reverse=True) if root.exists() else []:
+            if re.search(r"jdk-(1[7-9]|2\d)|jbr", str(java)):
+                env["JAVA_HOME"] = str(java.parents[1])
+                return env
+    return env
+
+
 def create_avd(cfg, emu):
     """Makes the emulator if it does not exist yet. Never overwrites one that does."""
     if config.avd_dir(emu).exists():
@@ -35,7 +53,7 @@ def create_avd(cfg, emu):
     # A .bat runs through cmd, which splits words at ';' unless they are quoted, so build the line by hand
     cmd = (f'"{tool}" create avd -n {emu["avd"]} -k "{cfg["systemImage"]}" -d {emu["device"]}')
     done = subprocess.run(cmd, input="no\n", capture_output=True, text=True, timeout=180,
-                          creationflags=NO_WINDOW)
+                          creationflags=NO_WINDOW, env=_env_with_java())
     if done.returncode != 0 or not config.avd_dir(emu).exists():
         raise LabError(f"Could not create {emu['name']}: {(done.stdout + done.stderr)[-400:]}")
     apply_hardware(emu, first_time=True)

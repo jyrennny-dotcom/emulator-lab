@@ -5,7 +5,8 @@ function Install-LabPython {
     try { return Get-LabPython } catch { }
     Say "Python 3 is needed and is not installed. It will be installed with winget (python.org build, about 30 MB)." Yellow
     if (-not (Ask "Install Python now?")) { throw "Setup stopped: Python 3 is required." }
-    winget install --id Python.Python.3.12 -e --scope user --source winget --accept-package-agreements
+    # Out-Host: winget's messages must not end up in this function's return value
+    winget install --id Python.Python.3.12 -e --scope user --source winget --accept-package-agreements | Out-Host
     return Get-LabPython
 }
 
@@ -29,7 +30,8 @@ function Install-LabJava {
     Say "Java 17 is needed by Google's SDK tools and is not installed." Yellow
     Say "It will be installed with winget: Eclipse Temurin 17 JDK (from adoptium.net, about 190 MB)."
     if (-not (Ask "Install Java 17 now?")) { throw "Setup stopped: Java 17 is required." }
-    winget install --id EclipseAdoptium.Temurin.17.JDK -e --source winget --accept-package-agreements
+    # Out-Host: winget's messages must not end up in JAVA_HOME (that broke creating the phones)
+    winget install --id EclipseAdoptium.Temurin.17.JDK -e --source winget --accept-package-agreements | Out-Host
     $java = Find-LabJava
     if (-not $java) { throw "Java was not found after installing. Close this window, open a new one and run setup again." }
     return $java
