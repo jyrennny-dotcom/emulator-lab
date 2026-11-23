@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emulator Lab</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body data-mode="__MODE__">
+<header class="top">
+  <div class="brand">
+    <span class="logo">▣</span>
+    <div>
+      <h1>Emulator Lab</h1>
+      <p class="sub" id="modeText">TikTok &amp; YouTube test phones</p>
+    </div>
+  </div>
+  <div class="bulk">
+    <button class="btn go" id="goTiktok">GO · Open TikTok on all</button>
+    <button class="btn" id="goYoutube">Open YouTube on all</button>
+    <button class="btn ok" id="startAll">Start all</button>
+    <button class="btn" id="stopAll">Stop all</button>
+    <button class="btn ghost" id="reconnect" title="Reconnect devices that ADB shows as offline">Reconnect ADB</button>
+  </div>
+</header>
+
+<details class="guide friend-only" open>
+  <summary>How to use this (quick guide)</summary>
+  <ol>
+    <li><b>Phones:</b> your friend turns them on with START on his PC. When a card says <b>Ready</b>, it's yours to use. If one is off, you can press <b>Start</b> on its card (wait about a minute). Please use one or two phones at a time.</li>
+    <li><b>Use the phone:</b> press <b>Phone screen</b>. Click = tap, click and drag = swipe, mouse wheel = scroll. Back / Home / Apps buttons are under the screen. Type in the box and press Send to type into the phone.</li>
+    <li><b>TikTok:</b> press <b>Open TikTok</b>. The first time it opens the Play Store: sign in to Google there, tap Install, then press Open TikTok again and log in yourself.</li>
+    <li><b>YouTube</b> is already installed: press <b>Open YouTube</b>.</li>
+    <li><b>Checklist &amp; notes</b> on each card: tick what you saw and press Save. Never write passwords or codes there.</li>
+    <li><b>Updates</b> on the right shows what's new to test. The page updates by itself, no refresh needed.</li>
+    <li>Done? Press <b>Stop</b> on the phone. Your apps and logins stay saved for next time.</li>
+  </ol>
+</details>
+<div id="problems" class="banner" hidden></div>
+<div id="toast" class="toast" hidden></div>
+
+<main class="layout">
+  <section id="cards" class="cards"></section>
+  <aside class="feed">
+    <div class="owner-only share">
+      <h2>Friend link</h2>
+      <p id="friendStatus" class="hint">Starting…</p>
+      <button class="btn go" id="copyFriend" disabled>Copy friend link</button>
+    </div>
+    <h2>Updates · what's new to test</h2>
+    <ol id="updates" class="updates"></ol>
+    <h2>Live activity <span class="dot"></span> <small id="clock"></small></h2>
+    <ol id="feed"></ol>
+  </aside>
+</main>
+
+<dialog id="phone" class="phone">
+  <div class="phone-head">
+    <strong id="phoneTitle">Phone</strong>
+    <button class="btn ghost" data-close>Close</button>
+  </div>
+  <p class="hint">Click to tap. Click and drag to swipe. Scroll the wheel to scroll.</p>
+  <div class="screen-wrap"><img id="phoneImg" alt="Emulator screen" draggable="false"></div>
+  <div class="phone-keys">
+    <button class="btn" data-key="back">◀ Back</button>
+    <button class="btn" data-key="home">● Home</button>
+    <button class="btn" data-key="recents">■ Apps</button>
+    <button class="btn" data-app="tiktok">TikTok</button>
+    <button class="btn" data-app="youtube">YouTube</button>
+  </div>
+  <form id="typeForm" class="type-row">
+    <input id="typeText" maxlength="200" placeholder="Type text into the phone" autocomplete="off">
+    <button class="btn">Send</button>
+    <button class="btn" type="button" data-key="enter">Enter</button>
+    <button class="btn" type="button" data-key="delete">⌫</button>
+  </form>
+</dialog>
+
+<dialog id="resetDlg" class="small">
+  <h3>Reset <span id="resetName"></span>?</h3>
+  <p>This wipes <b>all apps, logins and data</b> on this one emulator. It cannot be undone.</p>
+  <p>Type <code id="resetPhrase"></code> to confirm:</p>
+  <form id="resetForm">
+    <input id="resetInput" autocomplete="off">
+    <div class="row-end">
+      <button class="btn ghost" type="button" data-close>Cancel</button>
+      <button class="btn danger" id="resetGo" disabled>Wipe this emulator</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="hwDlg" class="small">
+  <h3>Hardware · <span id="hwName"></span></h3>
+  <p class="hint">Stop the emulator first. Changes apply on next start.</p>
+  <form id="hwForm" class="hw-grid">
+    <label>RAM (MB)<input name="ramMB" type="number" min="1536" max="8192" step="512"></label>
+    <label>CPU cores<input name="cores" type="number" min="1" max="8"></label>
+    <label>Width (px)<input name="width" type="number" min="480" max="2160"></label>
+    <label>Height (px)<input name="height" type="number" min="800" max="3840"></label>
+    <label>DPI<input name="dpi" type="number" min="120" max="640"></label>
+    <label class="check"><input name="enabled" type="checkbox"> Start with "Start all"</label>
+    <div class="row-end">
+      <button class="btn ghost" type="button" data-close>Cancel</button>
+      <button class="btn ok">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script type="module" src="/static/app.js"></script>
+</body>
+</html>

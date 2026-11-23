@@ -1,0 +1,23 @@
+{
+  "sdkRoot": "%LOCALAPPDATA%\\Android\\Sdk",
+  "systemImage": "system-images;android-34;google_apis_playstore;x86_64",
+  "platform": "platforms;android-34",
+  "dashboardPort": 8765,
+  "friendPort": 8766,
+  "autoShare": false,
+  "showWindows": true,
+  "updateRepo": "jyrennny-dotcom/emulator-lab",
+  "updateBranch": "main",
+  "bootTimeoutSeconds": 240,
+  "apps": [
+    { "key": "tiktok", "label": "TikTok", "packages": ["com.zhiliaoapp.musically", "com.ss.android.ugc.trill"] },
+    { "key": "youtube", "label": "YouTube", "packages": ["com.google.android.youtube"] }
+  ],
+  "emulators": [
+    { "id": "01", "name": "Emulator 01", "avd": "Lab_Emulator_01", "port": 5554, "device": "pixel_7", "ramMB": 3072, "cores": 4, "width": 1080, "height": 2400, "dpi": 420, "enabled": true },
+    { "id": "02", "name": "Emulator 02", "avd": "Lab_Emulator_02", "port": 5556, "device": "pixel_7", "ramMB": 3072, "cores": 4, "width": 1080, "height": 2400, "dpi": 420, "enabled": true },
+    { "id": "03", "name": "Emulator 03", "avd": "Lab_Emulator_03", "port": 5558, "device": "pixel_7", "ramMB": 3072, "cores": 4, "width": 1080, "height": 2400, "dpi": 420, "enabled": true },
+    { "id": "04", "name": "Emulator 04", "avd": "Lab_Emulator_04", "port": 5560, "device": "pixel_7", "ramMB": 3072, "cores": 4, "width": 1080, "height": 2400, "dpi": 420, "enabled": false },
+    { "id": "05", "name": "Emulator 05", "avd": "Lab_Emulator_05", "port": 5562, "device": "pixel_7", "ramMB": 3072, "cores": 4, "width": 1080, "height": 2400, "dpi": 420, "enabled": false }
+  ]
+}

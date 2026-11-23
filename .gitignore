@@ -1,0 +1,9 @@
+# this PC's own data: checklist notes, friend key, local settings, version, app copies
+data/
+logs/
+__pycache__/
+*.pyc
+*.bak
+*.tmp
+# screenshots from testing
+docs/*.png
