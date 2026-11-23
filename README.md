@@ -13,6 +13,8 @@ It updates itself: every 5 minutes it checks for a newer version and installs it
 
 Needs: Windows 10/11, 16 GB RAM or more is best, about 15 GB free disk space.
 
+Something not working? Send a screenshot of the window, plus the `logs` folder inside the install folder.
+
 ## Details
 
 ## First time (manual way)
